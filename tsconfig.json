@@ -22,7 +22,7 @@
     "esModuleInterop": true,
 
 
-    "outDir": "./build"
+    "outDir": "./public"
   },
   "types": ["node", "jest", "@testing-library/jest-dom"],
   "include": ["src"],
