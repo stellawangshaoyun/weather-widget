@@ -20,9 +20,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
-
-
-    "outDir": "./public"
   },
   "types": ["node", "jest", "@testing-library/jest-dom"],
   "include": ["src"],
