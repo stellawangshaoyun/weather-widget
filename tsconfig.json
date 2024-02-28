@@ -15,8 +15,8 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    
-    "noUnusedLocals": true,
+    "strict": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
