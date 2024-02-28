@@ -76,6 +76,7 @@ const WeatherWidget = () => {
             </div>
             <div className="grid place-content-center">
               <img
+                alt="Weather icon"
                 src={`http://openweathermap.org/img/wn/${weatherData.weather[0].icon}.png`}
                 className="mx-auto w-20 h-20 rounded-full object-cover"
               />

@@ -1,59 +1,110 @@
 import React from "react";
-import '@testing-library/jest-dom';
-import {  fireEvent, render,screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import WeatherWidget from "../components/WeatherWidget";
-import store from "../store/store";
-import fetchMock from "jest-fetch-mock";
+import fetchWeather from "../api/weatherService";
+import configureStore from "redux-mock-store";
+import { RootState } from "../store/store";
 
-describe('WeatherWidget', () => {
+jest.mock("../api/weatherService");
+describe("WeatherWidget", () => {
+  const mockStore = configureStore<RootState>();
+  let store: any;
 
-  beforeEach(() => {
-    fetchMock.enableMocks();
-    fetchMock.resetMocks();
-    fetchMock.mockClear();
-  });
-  test('renders input field', () => {
-    const { getByPlaceholderText } = render(
-      <Provider store={store}>
-        <WeatherWidget />
-      </Provider>
-    );
-    const inputElement = getByPlaceholderText('Weather in your city');
-    expect(inputElement).toBeDefined();
-  });
-
-  
-
-  test('does not fetch weather data when city is empty', async () => {
+  test("renders WeatherWidget component", () => {
+    store = mockStore({
+      weather: {
+        data: null,
+        loading: false,
+        error: null,
+      },
+    });
     render(
       <Provider store={store}>
         <WeatherWidget />
-      </Provider>
+      </Provider>,
     );
 
-    const inputElement = screen.getByPlaceholderText('Weather in your city');
-    fireEvent.change(inputElement, { target: { value: '' } });
-
-    expect(fetchMock).not.toHaveBeenCalled();
+    // Check if the input field is rendered
+    const inputElement = screen.getByPlaceholderText("Weather in your city");
+    expect(inputElement).toBeDefined();
   });
 
+  test("fetches weather data and displays it when location is provided", async () => {
+    // Mock the fetchWeather function to return a sample weather data
+    const mockWeatherData = {
+      main: { temp: 25, temp_max: 30, temp_min: 20 },
+      weather: [{ icon: "01d" }],
+    };
+    store = mockStore({
+      weather: {
+        data: mockWeatherData,
+        loading: false,
+        error: null,
+      },
+    });
+    (
+      fetchWeather as jest.MockedFunction<typeof fetchWeather>
+    ).mockResolvedValueOnce(mockWeatherData);
 
-  test('fetches weather data on city change', async () => {
-    fetchMock.enableMocks();
-    fetchMock.mockResponseOnce(JSON.stringify({ weather: { main: { temp: 25 } } }))
-
-     render(
+    render(
       <Provider store={store}>
         <WeatherWidget />
-      </Provider>
+      </Provider>,
     );
 
-    const inputElement = screen.getByPlaceholderText('Weather in your city');
-    fireEvent.change(inputElement, { target: { value: 'London' } });
+    // Simulate user input
+    const inputElement = screen.getByPlaceholderText("Weather in your city");
+    fireEvent.change(inputElement, { target: { value: "London" } });
 
-    expect(fetchMock).toHaveBeenCalledTimes(1);
-    // await screen.findByText('London');
-    // expect(screen.getByText('H : 11')).toBeDefined();
+    // Wait for the weather data to be displayed
+    await screen.findByText("London");
+
+    // Check if the weather data is displayed correctly
+    expect(screen.getByText("25 °")).toBeDefined();
+    expect(screen.getByText("H : 30")).toBeDefined();
+    expect(screen.getByText("L : 20")).toBeDefined();
+    expect(screen.getByAltText("Weather icon")).toBeDefined();
+  });
+
+  test("error message", async () => {
+    store = mockStore({
+      weather: {
+        data: null,
+        loading: false,
+        error: "cannot find this place",
+      },
+    });
+    (
+      fetchWeather as jest.MockedFunction<typeof fetchWeather>
+    ).mockResolvedValueOnce(null);
+
+    render(
+      <Provider store={store}>
+        <WeatherWidget />
+      </Provider>,
+    );
+    await screen.findByText("cannot find this place");
+  });
+
+  test("loading state", async () => {
+    store = mockStore({
+      weather: {
+        data: null,
+        loading: true,
+        error: "",
+      },
+    });
+    (
+      fetchWeather as jest.MockedFunction<typeof fetchWeather>
+    ).mockResolvedValueOnce(null);
+
+    render(
+      <Provider store={store}>
+        <WeatherWidget />
+      </Provider>,
+    );
+    await screen.findByText("Loading...");
   });
 });

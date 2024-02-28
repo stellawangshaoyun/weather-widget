@@ -1,17 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface WeatherState {
-  weather: any;
+interface WeatherState {
   data: any | null;
   loading: boolean;
-  error: string;
+  error: string | null;
 }
 
 const initialState: WeatherState = {
   data: null,
   loading: false,
-  error: "",
-  weather: undefined
+  error: null,
 };
 
 const weatherSlice = createSlice({
