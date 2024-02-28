@@ -20,13 +20,14 @@ npm run test
 
 ## Technologies Used
 
-React
-Redux
-Vite
-Tailwind CSS
-Jest and React Testing Library
-Axios
-TypeScript
+<li>React</li>
+<li>Redux</li>
+<li>Vite</li>
+<li>Tailwind CSS</li>
+<li>Jest and React Testing Library</li>
+<li>Axios</li>
+<li>TypeScript</li>
+
 
 
 ## Application and code structure
@@ -61,8 +62,8 @@ https://weather-widget-seven-rho.vercel.app/
 
 ## Things to Work on to Improve User Experience
 
-Create a List of Weather Data: Implement a feature to display a comprehensive list of weather data, including temperature, humidity, wind speed, etc., for the selected location.
+<p>> Create a List of Weather Data: Implement a feature to display a comprehensive list of weather data, including temperature, humidity, wind speed, etc., for the selected location.</p>
 
-Add Weather Data for a Week: Enhance the weather widget by integrating a weekly forecast feature, allowing users to view weather predictions for the upcoming week.
+<p>> Add Weather Data for a Week: Enhance the weather widget by integrating a weekly forecast feature, allowing users to view weather predictions for the upcoming week.</p>
 
-Link Location with Map: Improve user interaction by integrating location data with a map view, enabling users to visualize the selected location and its surroundings.
+<p>> Link Location with Map: Improve user interaction by integrating location data with a map view, enabling users to visualize the selected location and its surroundings.</p>
