@@ -19,9 +19,13 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+
+
+    "outDir": "./build"
   },
   "types": ["node", "jest", "@testing-library/jest-dom"],
-  "include": ["src", "./setupJest.js"],
+  "include": ["src"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
