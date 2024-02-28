@@ -7,6 +7,7 @@ import {
   fetchWeatherFailure,
 } from "../store/weatherSlice";
 import { RootState } from "../store/store";
+import { CityInput } from "./CityInput";
 const WeatherWidget = () => {
   const [location, setLocation] = useState<string>(""); // Default location
   const dispatch = useDispatch();
@@ -39,19 +40,13 @@ const WeatherWidget = () => {
     debouncedFetchData();
   }, [dispatch, location]);
 
-  const handleLocationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocation(e.target.value);
+  const handleLocationChange = (value: string) => {
+    setLocation(value);
   };
   return (
     <div className="container mx-auto p-4">
       <div className="max-w-min mx-auto bg-white rounded-lg shadow-md p-4 space-y-4">
-        <input
-          className="p-2 border rounded-md focus:outline-none focus:border-blue-500"
-          type="text"
-          value={location}
-          onChange={handleLocationChange}
-          placeholder="Weather in your city"
-        />
+        <CityInput value={location} onChange={handleLocationChange}/>
         {loading && <p className="mt-2 text-center">Loading...</p>}
         {location !== "" && error && (
           <p className="mt-2 text-red-500">{error}</p>

@@ -8,6 +8,7 @@ import configureStore from "redux-mock-store";
 import { RootState } from "../store/store";
 
 jest.mock("../api/weatherService");
+
 describe("WeatherWidget", () => {
   const mockStore = configureStore<RootState>();
   let store: any;
@@ -85,6 +86,8 @@ describe("WeatherWidget", () => {
         <WeatherWidget />
       </Provider>,
     );
+    const inputElement = screen.getByPlaceholderText("Weather in your city");
+    fireEvent.change(inputElement, { target: { value: "L" } });
     await screen.findByText("cannot find this place");
   });
 
